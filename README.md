@@ -44,11 +44,14 @@ attacker
 ### Basic XSS
   * Testing.  
       check if html tags are processed --> if <b> tags will be removed then your good to go next step
+ 
     Eg.
     
            <b> testing</b>
-
-        <script>alert('Hello XSS')</script>
+ 
+exploit
+ 
+              <script>alert('Hello XSS')</script>
     
   * redirecting 
            
