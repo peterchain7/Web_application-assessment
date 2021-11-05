@@ -137,6 +137,7 @@ It is important to note that while testing against this attack, it is not enough
   Executing os specific commands
    * In url
       /index.php?arg=1; phpinfo()
+      
   ==================================================== <br>
 
 # Client side Exploitation
