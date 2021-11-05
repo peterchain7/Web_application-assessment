@@ -132,7 +132,11 @@ Vulnerable parts include:
      Any other data entry and saving fields
      Website links
 It is important to note that while testing against this attack, it is not enough to check only one or a few fields. It is quite common, that one field may be protected against SQL Injection, but then another does not. Therefore it is important not to forget to test all the website’s field
-     
+ ## 4. OS Command Injection
+ 
+  Executing os specific commands
+   * In url
+      /index.php?arg=1; phpinfo()
   ==================================================== <br>
 
 # Client side Exploitation
