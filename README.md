@@ -235,6 +235,18 @@ exploit
         or
           
             `jaVasCript:/*-/*`/*\`/*'/*"/**/(/* */oNcliCk=alert() )//%0D%0A%0d%0a//</stYle/</titLe/</teXtarEa/</scRipt    /--!>\x3csVg/<sVg/oNloAd=alert()//>\x3e`
+   
+     
+ #### mitigation
+        
+        
+                      <?php 
+                     $name = $_GET['name']; 
+                     if (strpos($name, 'script') !== false) 
+                     { http_response_code(403); die('Forbidden'); } 
+                     ?>  
+        
+          
         
 #### Effects of XSS
    * Stealing a cookie who will trigger XSS
