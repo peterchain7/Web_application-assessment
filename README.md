@@ -238,7 +238,7 @@ i.  testing
    
 ii.  Enumerate information retrival 
 
-     'test' or '1'='1';
+     ' or 1=1  -- -
      
 iii.  Enumerate database version 
 
