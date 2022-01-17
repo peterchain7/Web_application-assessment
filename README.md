@@ -490,3 +490,11 @@ exploit
    * making request on behalf of the user who triggered the xss
    * DOM based attacks. Example changing the link/adding.. pointing to malicious.com
  
+## Attacking wordpress
+        * https://book.hacktricks.xyz/pentesting/pentesting-web/wordpress
+           
+ 1.  Extract versions in general
+      
+      `curl -s -X GET https://example.com | grep http | grep -E '?ver=' | sed -E 's,href=|src=,THIIIIS,g' | awk -F       "THIIIIS" '{print $2}' | cut -d "'" -f2`
+        
+  2. 
