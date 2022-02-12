@@ -15,7 +15,7 @@
 
              ?language=de
         
-attacker
+attacker in accept language
    
              de';phpinfo()//
 
@@ -372,7 +372,9 @@ SECOND CHARACTER:
  
   Executing os specific commands
    * In url
-      /index.php?arg=1; phpinfo()
+   
+         /index.php?arg=1; phpinfo()
+        
  ## 5. Padding oracle Attack
           
    Detecting.
