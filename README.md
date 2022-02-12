@@ -2,6 +2,9 @@
 
 # Server side EXploitation
 ## Some tricks and POC's about web app vulnerability
+   ### ONline tools
+       * https://whatcms.org/
+       *
 ## 1. Remote code execution (RCE)
   * Example of Code Evaluation Exploitation
   You want to have dynamically generated variable names for every user and store its registration date. This is how it could be done in PHP:
